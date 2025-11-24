@@ -31,7 +31,7 @@ export default function Home() {
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline">
-              {mounted ? `Theme: ${theme === 'light' ? 'Light' : 'Dark'}` : 'Change Theme'}
+              {mounted ? `Theme: ${theme}` : 'Change Theme'}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-48 p-2">
@@ -41,7 +41,6 @@ export default function Home() {
                   Select Theme
                 </div>
                 {themes.map((themeOption) => {
-                  const Icon = themeOption.icon;
                   const isActive = theme === themeOption.value;
 
                   return (
@@ -51,7 +50,6 @@ export default function Home() {
                       className={`flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground ${isActive ? "bg-accent text-accent-foreground" : ""
                         }`}
                     >
-                      <Icon className="size-4" />
                       <span className="flex-1 text-left">{themeOption.name}</span>
                       {isActive && <Check className="size-4" />}
                     </button>
