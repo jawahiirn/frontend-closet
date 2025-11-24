@@ -1,6 +1,8 @@
-import { Moon, Sun } from "lucide-react";
-
 export const themes = [
-    { name: "Light", value: "light", icon: Sun },
-    { name: "Dark", value: "dark", icon: Moon },
+    { name: "Light", value: "light", },
+    { name: "Dark", value: "dark" },
+    {
+        name: "Violet Bloom (Dark)",
+        value: "violet-bloom-dark",
+    }
 ];
