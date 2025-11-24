@@ -1,11 +1,12 @@
 "use client"
 
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { Moon, Sun, Check } from "lucide-react";
-import { useEffect, useState } from "react";
+import { themes } from "@/lib/constants/theme-constants";
+import { Check } from "lucide-react";
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
@@ -14,11 +15,6 @@ export default function Home() {
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const themes = [
-    { name: "Light", value: "light", icon: Sun },
-    { name: "Dark", value: "dark", icon: Moon },
-  ];
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
