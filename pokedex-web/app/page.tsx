@@ -7,7 +7,6 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import { themes } from "@/lib/constants/theme-constants";
 import { Check } from "lucide-react";
-import { FontTests } from "../tests/font-tests";
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
@@ -28,7 +27,6 @@ export default function Home() {
           height={20}
           priority
         />
-        <FontTests />
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline">
