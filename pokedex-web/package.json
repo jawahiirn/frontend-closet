@@ -6,9 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
     "knip": "knip",
-    "knip:watch": "knip --watch"
+    "knip:watch": "knip --watch",
+    "lint": "eslint . --ext .js,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.ts,.tsx --fix "
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
