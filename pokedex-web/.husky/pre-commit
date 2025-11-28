@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Check for console statements in staged files
+echo "🔍 Checking for console statements..."
+
+# Get all staged TypeScript/JavaScript files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx|js|jsx)$')
+
+if [ -z "$STAGED_FILES" ]; then
+  echo "✅ No TypeScript/JavaScript files to check"
+  exit 0
+fi
+
+# Check for console statements
+CONSOLE_FOUND=false
+for FILE in $STAGED_FILES; do
+  if [ -f "$FILE" ]; then
+    # Check for console.log, console.warn, console.error, etc.
+    if grep -n -E 'console\.(log|warn|error|info|debug|trace)' "$FILE"; then
+      CONSOLE_FOUND=true
+    fi
+  fi
+done
+
+if [ "$CONSOLE_FOUND" = true ]; then
+  echo ""
+  echo "❌ COMMIT REJECTED: Console statements found in staged files!"
+  echo ""
+  echo "Please remove console statements before committing."
+  echo "If you need to keep them, you can:"
+  echo "  1. Use 'git commit --no-verify' to bypass this hook"
+  echo "  2. Add '// eslint-disable-next-line no-console' above the line"
+  echo ""
+  exit 1
+fi
+
+echo "✅ No console statements found"
+exit 0

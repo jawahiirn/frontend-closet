@@ -16,6 +16,8 @@ export default function Home() {
     setMounted(true);
   }, []);
 
+  console.log("This should be caught by pre-commit hook");
+
   return (
     <div className="flex min-h-screen items-center justify-center font-sans dark:bg-black">
       <main className="flex min-h-screen w-full flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
@@ -35,9 +37,8 @@ export default function Home() {
                     <button
                       key={themeOption.value}
                       onClick={() => setTheme(themeOption.value)}
-                      className={`flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground ${
-                        isActive ? 'bg-accent text-accent-foreground' : ''
-                      }`}>
+                      className={`flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground ${isActive ? 'bg-accent text-accent-foreground' : ''
+                        }`}>
                       <span className="flex-1 text-left">{themeOption.name}</span>
                       {isActive && <Check className="size-4" />}
                     </button>

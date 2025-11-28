@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run knip to check for unused code
+echo "🔍 Running knip to check for unused code..."
+echo ""
+
+npm run knip
+
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "⚠️  WARNING: Knip found unused code (see above)"
+  echo ""
+  echo "This is informational only - your push will continue."
+  echo "Please review the unused code and remove it when appropriate."
+  echo "To block pushes with unused code, edit .husky/pre-push"
+  echo ""
+fi
+
+echo "✅ Pre-push check complete"
+exit 0
