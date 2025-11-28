@@ -21,7 +21,7 @@ CONSOLE_FOUND=false
 for FILE in $STAGED_FILES; do
   if [ -f "$FILE" ]; then
     # Check for console.log, console.warn, console.error, etc.
-    MATCHES=$(grep -n -E 'console\.(log|warn|error|info|debug|trace)' "$FILE" 2>/dev/null)
+    MATCHES=$(grep -n -E 'console\.(log|warn|error|info|debug|trace)' "$FILE" 2>/dev/null || true)
     if [ -n "$MATCHES" ]; then
       CONSOLE_FOUND=true
       echo "❌ Console statements found in: ${FILE}"

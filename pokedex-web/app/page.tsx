@@ -16,7 +16,6 @@ export default function Home() {
     setMounted(true);
   }, []);
 
-  console.log("This should be caught by pre-commit hook");
 
   return (
     <div className="flex min-h-screen items-center justify-center font-sans dark:bg-black">
