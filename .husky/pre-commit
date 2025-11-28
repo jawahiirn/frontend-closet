@@ -1,23 +1,17 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-LOG_FILE=".husky/debug.log"
-rm -f "$LOG_FILE"
-exec 2>>"$LOG_FILE"
-set -x
-
-echo "Checking for console statements in staged files..." >&2
+echo ""
+echo "🔍 Checking for console statements in staged files..."
+echo ""
 
 # Get all staged TypeScript/JavaScript files (excluding .husky directory)
+# Added || true to prevent script exit if grep finds no matches (set -e behavior)
 STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx|js|jsx)$' | grep -v '.husky' || true)
 
-echo "DEBUG: STAGED_FILES list:" >&2
-echo "$STAGED_FILES" >&2
-echo "DEBUG: End of list" >&2
-
 if [ -z "$STAGED_FILES" ]; then
-  echo "✅ No TypeScript/JavaScript files to check" >&2
-  cat "$LOG_FILE"
+  echo "✅ No TypeScript/JavaScript files to check"
+  echo ""
   exit 0
 fi
 
@@ -26,26 +20,32 @@ CONSOLE_FOUND=false
 
 for FILE in $STAGED_FILES; do
   if [ -f "$FILE" ]; then
-    echo "DEBUG: Checking $FILE" >&2
     # Check for console.log, console.warn, console.error, etc.
     MATCHES=$(grep -n -E 'console\.(log|warn|error|info|debug|trace)' "$FILE" 2>/dev/null)
     if [ -n "$MATCHES" ]; then
       CONSOLE_FOUND=true
-      echo "DEBUG: MATCH FOUND in $FILE" >&2
-      echo "❌ Console statements found in: ${FILE}" >&2
-      echo "$MATCHES" >&2
-      echo "" >&2
+      echo "❌ Console statements found in: ${FILE}"
+      echo "$MATCHES"
+      echo ""
     fi
   fi
 done
 
 if [ "$CONSOLE_FOUND" = true ]; then
-  echo "COMMIT REJECTED!" >&2
-  echo "Reason: Console statements detected in staged files" >&2
-  cat "$LOG_FILE"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "❌ COMMIT REJECTED!"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  echo "Reason: Console statements detected in staged files (see above)"
+  echo ""
+  echo "📝 What to do:"
+  echo "   • Remove the console statements and try again"
+  echo "   • Add '// eslint-disable-next-line no-console' above specific lines"
+  echo "   • Use 'git commit --no-verify' to bypass this check (not recommended)"
+  echo ""
   exit 1
 fi
 
-echo "✅ No console statements found - commit allowed" >&2
-cat "$LOG_FILE"
+echo "✅ No console statements found - commit allowed"
+echo ""
 exit 0
