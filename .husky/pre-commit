@@ -48,4 +48,31 @@ fi
 
 echo "✅ No console statements found - commit allowed"
 echo ""
+
+echo "🔍 Running knip to check for unused code..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# Run knip in pokedex-web directory
+# Using a subshell to isolate the directory change
+(
+  cd pokedex-web || exit 1
+  npm run knip
+  KNIP_EXIT_CODE=$?
+
+  echo ""
+  if [ $KNIP_EXIT_CODE -ne 0 ]; then
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "⚠️  WARNING: Knip found unused code (see above)"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "📝 This is informational only - your commit will continue."
+    echo "   Please review the unused code and remove it when appropriate."
+    echo ""
+  else
+    echo "✅ No unused code found"
+    echo ""
+  fi
+)
+
 exit 0
