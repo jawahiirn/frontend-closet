@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# Run knip to check for unused code
+echo ""
 echo "🔍 Running knip to check for unused code..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
 # Change to the pokedex-web directory where package.json and knip.json are located
@@ -10,15 +11,22 @@ cd pokedex-web || exit 1
 
 npm run knip
 
-if [ $? -ne 0 ]; then
-  echo ""
+KNIP_EXIT_CODE=$?
+
+echo ""
+if [ $KNIP_EXIT_CODE -ne 0 ]; then
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo "⚠️  WARNING: Knip found unused code (see above)"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
-  echo "This is informational only - your push will continue."
-  echo "Please review the unused code and remove it when appropriate."
-  echo "To block pushes with unused code, edit .husky/pre-push"
+  echo "📝 This is informational only - your push will continue."
+  echo "   Please review the unused code and remove it when appropriate."
+  echo ""
+  echo "   To block pushes with unused code, edit .husky/pre-push"
+  echo ""
+else
+  echo "✅ No unused code found - push allowed"
   echo ""
 fi
 
-echo "✅ Pre-push check complete"
 exit 0
