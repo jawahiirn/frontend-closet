@@ -1,39 +1,51 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+LOG_FILE=".husky/debug.log"
+rm -f "$LOG_FILE"
+exec 2>>"$LOG_FILE"
+set -x
+
+echo "Checking for console statements in staged files..." >&2
+
+# Get all staged TypeScript/JavaScript files (excluding .husky directory)
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx|js|jsx)$' | grep -v '.husky' || true)
+
+echo "DEBUG: STAGED_FILES list:" >&2
+echo "$STAGED_FILES" >&2
+echo "DEBUG: End of list" >&2
+
+if [ -z "$STAGED_FILES" ]; then
+  echo "✅ No TypeScript/JavaScript files to check" >&2
+  cat "$LOG_FILE"
+  exit 0
+fi
+
 # Check for console statements
 CONSOLE_FOUND=false
 
 for FILE in $STAGED_FILES; do
   if [ -f "$FILE" ]; then
+    echo "DEBUG: Checking $FILE" >&2
     # Check for console.log, console.warn, console.error, etc.
     MATCHES=$(grep -n -E 'console\.(log|warn|error|info|debug|trace)' "$FILE" 2>/dev/null)
     if [ -n "$MATCHES" ]; then
       CONSOLE_FOUND=true
+      echo "DEBUG: MATCH FOUND in $FILE" >&2
       echo "❌ Console statements found in: ${FILE}" >&2
-      echo "${MATCHES}" | while IFS= read -r line; do
-        echo "   Line: $line" >&2
-      done
+      echo "$MATCHES" >&2
       echo "" >&2
     fi
   fi
 done
 
 if [ "$CONSOLE_FOUND" = true ]; then
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >&2
-  echo "❌ COMMIT REJECTED!" >&2
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >&2
-  echo "" >&2
-  echo "Reason: Console statements detected in staged files (see above)" >&2
-  echo "" >&2
-  echo "📝 What to do:" >&2
-  echo "   • Remove the console statements and try again" >&2
-  echo "   • Add '// eslint-disable-next-line no-console' above specific lines" >&2
-  echo "   • Use 'git commit --no-verify' to bypass this check (not recommended)" >&2
-  echo "" >&2
+  echo "COMMIT REJECTED!" >&2
+  echo "Reason: Console statements detected in staged files" >&2
+  cat "$LOG_FILE"
   exit 1
 fi
 
 echo "✅ No console statements found - commit allowed" >&2
-echo "" >&2
+cat "$LOG_FILE"
 exit 0
