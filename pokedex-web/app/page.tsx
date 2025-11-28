@@ -11,7 +11,7 @@ import { Check } from 'lucide-react';
 export default function Home() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const unused_variable = 2000; // This should trigger knip warning
+
   useEffect(() => {
     setMounted(true);
   }, []);
