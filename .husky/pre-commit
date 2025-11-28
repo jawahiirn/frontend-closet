@@ -14,17 +14,21 @@ fi
 
 # Check for console statements
 CONSOLE_FOUND=false
+echo ""
 for FILE in $STAGED_FILES; do
   if [ -f "$FILE" ]; then
     # Check for console.log, console.warn, console.error, etc.
-    if grep -n -E 'console\.(log|warn|error|info|debug|trace)' "$FILE"; then
+    MATCHES=$(grep -n -E 'console\.(log|warn|error|info|debug|trace)' "$FILE")
+    if [ -n "$MATCHES" ]; then
+      echo "❌ Found console statements in: $FILE"
+      echo "$MATCHES"
+      echo ""
       CONSOLE_FOUND=true
     fi
   fi
 done
 
 if [ "$CONSOLE_FOUND" = true ]; then
-  echo ""
   echo "❌ COMMIT REJECTED: Console statements found in staged files!"
   echo ""
   echo "Please remove console statements before committing."

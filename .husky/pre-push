@@ -5,6 +5,9 @@
 echo "🔍 Running knip to check for unused code..."
 echo ""
 
+# Change to the pokedex-web directory where package.json and knip.json are located
+cd pokedex-web || exit 1
+
 npm run knip
 
 if [ $? -ne 0 ]; then
