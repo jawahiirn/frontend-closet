@@ -1,2 +1,2 @@
-export * from './theme-provider.tsx'
-export * from './query-client-provider.tsx'
+export * from './theme-provider';
+export * from './query-client-provider';
