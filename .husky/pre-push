@@ -34,9 +34,12 @@ echo ""
 # Change to the pokedex-web directory where package.json and knip.json are located
 cd pokedex-web || exit 1
 
+# Disable exit-on-error temporarily to capture knip exit code
+set +e
 npm run knip
 
 KNIP_EXIT_CODE=$?
+set -e
 
 echo ""
 if [ $KNIP_EXIT_CODE -ne 0 ]; then
