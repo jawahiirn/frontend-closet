@@ -1,6 +1,7 @@
+import {ReactNode} from "react";
 import type { Metadata } from "next";
 import { lexend, quicksand } from "./font";
-import { ThemeProvider } from "@/providers/theme-provider";
+import { ThemeProvider, QueryProvider  } from "@/providers";
 import "@/styles/globals.css";
 
 
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -28,7 +29,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+            <QueryProvider>
           {children}
+            </QueryProvider>
         </ThemeProvider>
       </body>
     </html>
