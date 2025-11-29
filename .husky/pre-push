@@ -2,6 +2,31 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 echo ""
+echo "🔍 Checking branch naming convention..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+VALID_PREFIXES="^(update|fixing|chore|config|feature)"
+
+if ! echo "$BRANCH_NAME" | grep -qE "$VALID_PREFIXES"; then
+  echo "❌ Push blocked! Invalid branch name: $BRANCH_NAME"
+  echo ""
+  echo "Branch names must start with one of the following prefixes:"
+  echo "  • update"
+  echo "  • fixing"
+  echo "  • chore"
+  echo "  • config"
+  echo "  • feature"
+  echo ""
+  echo "Example: feature/new-login-page"
+  echo ""
+  exit 1
+fi
+
+echo "✅ Branch name '$BRANCH_NAME' is valid"
+echo ""
+
 echo "🔍 Running knip to check for unused code..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
