@@ -35,9 +35,8 @@ export default function Home() {
                     <button
                       key={themeOption.value}
                       onClick={() => setTheme(themeOption.value)}
-                      className={`flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground ${
-                        isActive ? 'bg-accent text-accent-foreground' : ''
-                      }`}>
+                      className={`flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground ${isActive ? 'bg-accent text-accent-foreground' : ''
+                        }`}>
                       <span className="flex-1 text-left">{themeOption.name}</span>
                       {isActive && <Check className="size-4" />}
                     </button>

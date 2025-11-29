@@ -1,0 +1,60 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo ""
+echo "🔍 Checking branch naming convention..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+VALID_PREFIXES="^(update|fixing|chore|config|feature)"
+
+if ! echo "$BRANCH_NAME" | grep -qE "$VALID_PREFIXES"; then
+  echo "❌ Push blocked! Invalid branch name: $BRANCH_NAME"
+  echo ""
+  echo "Branch names must start with one of the following prefixes:"
+  echo "  • update"
+  echo "  • fixing"
+  echo "  • chore"
+  echo "  • config"
+  echo "  • feature"
+  echo ""
+  echo "Example: feature/new-login-page"
+  echo ""
+  exit 1
+fi
+
+echo "✅ Branch name '$BRANCH_NAME' is valid"
+echo ""
+
+echo "🔍 Running knip to check for unused code..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# Change to the pokedex-web directory where package.json and knip.json are located
+cd pokedex-web || exit 1
+
+# Disable exit-on-error temporarily to capture knip exit code
+set +e
+npm run knip
+
+KNIP_EXIT_CODE=$?
+set -e
+
+echo ""
+if [ $KNIP_EXIT_CODE -ne 0 ]; then
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "⚠️  WARNING: Knip found unused code (see above)"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  echo "📝 This is informational only - your push will continue."
+  echo "   Please review the unused code and remove it when appropriate."
+  echo ""
+  echo "   To block pushes with unused code, edit .husky/pre-push"
+  echo ""
+else
+  echo "✅ No unused code found - push allowed"
+  echo ""
+fi
+
+exit 0
