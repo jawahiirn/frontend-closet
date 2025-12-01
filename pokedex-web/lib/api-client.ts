@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { useTokenStore } from './store/use-token-store';
 
 const apiClient = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL || '',
+    baseURL: 'https://pokeapi.co/api/v2/',
     headers: {
         'Content-Type': 'application/json',
     },
