@@ -1,10 +1,5 @@
 import { axiosRequest } from '@/service/api-client';
-import {
-  PokemonListResponse,
-  PokemonDetailsResponse,
-  CreatePokemonRequest,
-  PokemonDetailsRequest,
-} from '@/service/types/api';
+import { PokemonListResponse, PokemonDetailsResponse, CreatePokemonRequest, PokemonDetailsRequest } from '../types';
 
 export const getPokemonList = (limit: number = 20, offset: number = 0): Promise<PokemonListResponse> => {
   return axiosRequest({

@@ -1,4 +1,4 @@
-import { Pokemon } from '@/service/types/api/common';
+import { Pokemon } from '@/features/pokemon/types';
 
 export interface PokemonListResponse {
   count: number;

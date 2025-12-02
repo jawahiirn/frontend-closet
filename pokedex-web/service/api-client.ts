@@ -46,7 +46,6 @@ export const axiosRequest = async ({ url, method = 'GET', data, params, headers 
     });
     return result.data;
   } catch (axiosError) {
-    const error = axiosError as AxiosError;
-    throw error;
+    throw axiosError as AxiosError;
   }
 };
