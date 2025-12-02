@@ -8,17 +8,14 @@ import Image from 'next/image';
 import { themes } from '@/lib/constants/theme-constants';
 import { Check } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { getPokemonList } from '@/service/api/pokemon';
+import { pokemonListQuery } from '@/features/pokemon/api/queries';
 import Link from 'next/link';
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['pokemon-list'],
-    queryFn: () => getPokemonList(20),
-  });
+  const { data, isLoading, isError } = useQuery(pokemonListQuery(20));
 
   useEffect(() => {
     setMounted(true);
@@ -46,9 +43,8 @@ export default function Home() {
                     <button
                       key={themeOption.value}
                       onClick={() => setTheme(themeOption.value)}
-                      className={`flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground ${
-                        isActive ? 'bg-accent text-accent-foreground' : ''
-                      }`}
+                      className={`flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground ${isActive ? 'bg-accent text-accent-foreground' : ''
+                        }`}
                     >
                       <span className="flex-1 text-left">{themeOption.name}</span>
                       {isActive && <Check className="size-4" />}
