@@ -1,0 +1,14 @@
+{
+    "Index": {
+        "title": "Pokedex",
+        "switchLanguage": "Switch Language",
+        "welcome": "Welcome to the Pokedex",
+        "description": "Discover the amazing world of Pokemon. Gotta catch 'em all!",
+        "features": {
+            "title": "Features",
+            "search": "Search Pokemon",
+            "details": "View Details",
+            "compare": "Compare Stats"
+        }
+    }
+}
