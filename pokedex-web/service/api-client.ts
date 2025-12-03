@@ -27,7 +27,7 @@ apiClient.interceptors.response.use(
   }
 );
 
-export type AxiosQueryParams = {
+type AxiosQueryParams = {
   url: string;
   method?: AxiosRequestConfig['method'];
   data?: AxiosRequestConfig['data'];
