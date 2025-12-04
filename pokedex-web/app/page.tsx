@@ -1,28 +1,17 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useTheme } from 'next-themes';
 import Image from 'next/image';
-import { themes } from '@/shared/constants/theme-constants';
-import { Check } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { pokemonListQuery } from '@/features/pokemon/api/queries';
-import Link from 'next/link';
 import LanguageSwitcher from '@/features/i18n/components/language-switcher';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
+import { getQueryClient } from '@/shared/lib/query-client';
+import { prefetchPokemonList } from '@/features/pokemon/api/prefetch';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { PokemonList } from '@/features/pokemon/components/pokemon-list';
+import { ThemeToggle } from '@/features/theme/components/theme-toggle';
 
-export default function Home() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const t = useTranslations('Index');
+export default async function Home() {
+  const t = await getTranslations('Index');
+  const queryClient = getQueryClient();
 
-  const { data, isLoading, isError } = useQuery(pokemonListQuery(20));
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  await prefetchPokemonList(queryClient, 20);
 
   return (
     <div className="flex min-h-screen flex-col items-center p-8 font-sans bg-background">
@@ -33,34 +22,8 @@ export default function Home() {
         </div>
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline">{mounted ? `Theme: ${theme}` : 'Change Theme'}</Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-48 p-2">
-              {mounted && (
-                <div className="flex flex-col gap-1">
-                  <div className="px-2 py-1.5 text-sm font-semibold">Select Theme</div>
-                  {themes.map((themeOption) => {
-                    const isActive = theme === themeOption.value;
-
-                    return (
-                      <button
-                        key={themeOption.value}
-                        onClick={() => setTheme(themeOption.value)}
-                        className={`flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground ${
-                          isActive ? 'bg-accent text-accent-foreground' : ''
-                        }`}
-                      >
-                        <span className="flex-1 text-left">{themeOption.name}</span>
-                        {isActive && <Check className="size-4" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </PopoverContent>
-          </Popover>
+          {/* Theme switcher logic needs to be client-side. I'll use a placeholder for now or better, create the component. */}
+          <ThemeToggle />
         </div>
       </header>
 
@@ -82,18 +45,9 @@ export default function Home() {
           </div>
         </section>
 
-        {isLoading && <div>Loading Pokemon...</div>}
-        {isError && <div className="text-red-500">Error fetching Pokemon</div>}
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {data?.results.map((pokemon) => (
-            <Link href={`/pokemon/${pokemon.name}`} key={pokemon.name} className="block">
-              <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-md transition-shadow capitalize text-center">
-                {pokemon.name}
-              </div>
-            </Link>
-          ))}
-        </div>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <PokemonList />
+        </HydrationBoundary>
       </main>
     </div>
   );

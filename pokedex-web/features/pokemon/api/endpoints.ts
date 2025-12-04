@@ -1,17 +1,20 @@
 import { axiosRequest } from '@/shared/lib/api-client';
 import { PokemonListResponse, PokemonDetailsResponse, CreatePokemonRequest, PokemonDetailsRequest } from '../types';
+import { pokemonListSchema, pokemonDetailsSchema } from '../schemas';
 
-export const getPokemonList = (limit: number = 20, offset: number = 0): Promise<PokemonListResponse> => {
-  return axiosRequest({
+export const getPokemonList = async (limit: number = 20, offset: number = 0): Promise<PokemonListResponse> => {
+  const data = await axiosRequest({
     url: '/pokemon',
     params: { limit, offset },
   });
+  return pokemonListSchema.parse(data);
 };
 
-export const getPokemonDetails = (data: PokemonDetailsRequest): Promise<PokemonDetailsResponse> => {
-  return axiosRequest({
+export const getPokemonDetails = async (data: PokemonDetailsRequest): Promise<PokemonDetailsResponse> => {
+  const result = await axiosRequest({
     url: `/pokemon/${data.name}`,
   });
+  return pokemonDetailsSchema.parse(result);
 };
 
 export const createPokemon = (data: CreatePokemonRequest) => {

@@ -642,7 +642,7 @@ export default function Home() {
 import { getQueryClient } from '@/shared/lib/query-client';
 import { pokemonListQuery } from '@/features/pokemon/api/queries';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
-import { PokemonListClient } from '@/features/pokemon/components/pokemon-list-client';
+import { PokemonList } from '@/features/pokemon/components/pokemon-list-client';
 import { ThemeSwitcher } from '@/features/theme/components/theme-switcher';
 
 export default async function Home() {
@@ -655,7 +655,7 @@ export default async function Home() {
     <div>
       <ThemeSwitcher />  {/* Client component */}
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <PokemonListClient />  {/* Client component */}
+        <PokemonList />  {/* Client component */}
       </HydrationBoundary>
     </div>
   );
@@ -1097,7 +1097,7 @@ npm run dev  # Test manually
 ### Phase 2: Architecture (Week 2)
 
 #### Step 4: Convert app/page.tsx to RSC
-1. Create `features/pokemon/components/pokemon-list-client.tsx`
+1. Create `features/pokemon/components/pokemon-list.tsx`
 2. Move client logic to new component
 3. Remove `'use client'` from `app/page.tsx`
 4. Prefetch data on server
