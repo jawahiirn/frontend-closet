@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import { useTokenStore } from '@/store/zustand/use-token-store';
+import { useTokenStore } from '@/store/use-token-store';
 
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || '',

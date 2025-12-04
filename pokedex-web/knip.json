@@ -4,7 +4,8 @@
         "next.config.ts",
         "eslint.config.mjs",
         "postcss.config.mjs",
-        "app/**/{page,layout,loading,error,not-found,global-error,route,template,default}.{ts,tsx}"
+        "app/**/{page,layout,loading,error,not-found,global-error,route,template,default}.{ts,tsx}",
+        "i18n/request.ts"
     ],
     "project": [
         "**/*.{ts,tsx,js,mjs,cjs}"

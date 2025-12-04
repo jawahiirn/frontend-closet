@@ -16,13 +16,13 @@ export default getRequestConfig(async () => {
   try {
     return {
       locale,
-      messages: (await import(`../messages/${locale}.json`)).default,
+      messages: (await import(`../../messages/${locale}.json`)).default,
     };
   } catch (error) {
     // Fallback to English if locale file doesn't exist
     return {
       locale: 'en',
-      messages: (await import(`../messages/en.json`)).default,
+      messages: (await import(`../../messages/en.json`)).default,
     };
   }
 });

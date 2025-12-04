@@ -7,7 +7,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo ""
 
 BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-VALID_PREFIXES="^(update|fixing|chore|config|feature)"
+VALID_PREFIXES="^(update|fixing|chore|config|feature|refactor)"
 
 if ! echo "$BRANCH_NAME" | grep -qE "$VALID_PREFIXES"; then
   echo "❌ Push blocked! Invalid branch name: $BRANCH_NAME"

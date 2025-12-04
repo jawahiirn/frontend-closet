@@ -5,12 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
-import { themes } from '@/lib/constants/theme-constants';
+import { themes } from '@/shared/constants/theme-constants';
 import { Check } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { pokemonListQuery } from '@/features/pokemon/api/queries';
 import Link from 'next/link';
-import LanguageSwitcher from '@/components/language-switcher';
+import LanguageSwitcher from '@/features/i18n/components/language-switcher';
 import { useTranslations } from 'next-intl';
 
 export default function Home() {

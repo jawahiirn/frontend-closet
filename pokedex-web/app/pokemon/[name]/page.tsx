@@ -1,5 +1,5 @@
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
-import { getQueryClient } from '@/service/query-client';
+import { getQueryClient } from '@/shared/lib/query-client';
 import { pokemonDetailsQuery } from '@/features/pokemon/api/queries';
 import { PokemonDetails } from '@/features/pokemon/components/pokemon-detail';
 
