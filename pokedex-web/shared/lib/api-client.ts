@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import { useTokenStore } from '@/store/use-token-store';
+import { getAuthToken } from '@/shared/hooks/use-auth-token';
 
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || '',
@@ -10,7 +10,7 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const token = useTokenStore.getState().token;
+    const token = getAuthToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

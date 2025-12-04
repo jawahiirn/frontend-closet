@@ -1,11 +1,7 @@
 import { Pokemon } from '@/features/pokemon/types';
+import { PaginatedResponse } from '@/shared/types/api.types';
 
-export interface PokemonListResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: Pokemon[];
-}
+export type PokemonListResponse = PaginatedResponse<Pokemon>;
 
 export interface PokemonDetailsResponse {
   id: number;
