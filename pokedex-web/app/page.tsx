@@ -10,7 +10,7 @@ import { Check } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { pokemonListQuery } from '@/features/pokemon/api/queries';
 import Link from 'next/link';
-import LanguageSwitcher from '@/shared/components/language-switcher';
+import LanguageSwitcher from '@/features/i18n/components/language-switcher';
 import { useTranslations } from 'next-intl';
 
 export default function Home() {

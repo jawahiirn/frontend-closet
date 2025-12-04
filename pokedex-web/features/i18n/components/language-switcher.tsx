@@ -3,7 +3,7 @@
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { setLocaleCookie } from '@/i18n/locale';
+import { setLocaleCookie } from '@/features/i18n/locale';
 import { useTransition } from 'react';
 
 export default function LanguageSwitcher() {
