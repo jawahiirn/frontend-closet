@@ -1,19 +1,5 @@
-import { Pokemon } from './shared';
-import { PaginatedResponse } from '@/shared/types/api.types';
+import { z } from 'zod';
+import { pokemonListSchema, pokemonDetailsSchema } from '../schemas';
 
-export type PokemonListResponse = PaginatedResponse<Pokemon>;
-
-export interface PokemonDetailsResponse {
-  id: number;
-  name: string;
-  height: number;
-  weight: number;
-  sprites: {
-    front_default: string;
-  };
-  types: {
-    type: {
-      name: string;
-    };
-  }[];
-}
+export type PokemonListResponse = z.infer<typeof pokemonListSchema>;
+export type PokemonDetailsResponse = z.infer<typeof pokemonDetailsSchema>;
