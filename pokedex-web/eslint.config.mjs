@@ -33,10 +33,6 @@ const eslintConfig = defineConfig([
     },
     rules: {
       ...reactHooks.configs.recommended.rules, // Apply recommended React Hooks rules
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true }, // React Fast Refresh rule
-      ],
       'prettier/prettier': 'warn', // Enforce Prettier formatting
     },
   },

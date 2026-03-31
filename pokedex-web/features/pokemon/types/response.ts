@@ -1,4 +1,4 @@
-import { Pokemon } from '@/features/pokemon/types';
+import { Pokemon } from './shared';
 import { PaginatedResponse } from '@/shared/types/api.types';
 
 export type PokemonListResponse = PaginatedResponse<Pokemon>;

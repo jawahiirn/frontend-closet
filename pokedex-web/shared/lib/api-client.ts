@@ -35,9 +35,9 @@ type AxiosQueryParams = {
   headers?: AxiosRequestConfig['headers'];
 };
 
-export const axiosRequest = async ({ url, method = 'GET', data, params, headers }: AxiosQueryParams) => {
+export const axiosRequest = async <T>({ url, method = 'GET', data, params, headers }: AxiosQueryParams): Promise<T> => {
   try {
-    const result = await apiClient({
+    const result = await apiClient<T>({
       url,
       method,
       data,
