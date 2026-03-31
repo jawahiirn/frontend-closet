@@ -1,13 +1,14 @@
 'use client';
 
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { setLocaleCookie } from '@/features/i18n/locale';
 import { useTransition } from 'react';
+import { useI18n } from '@/features/i18n/use-i18n';
 
 export default function LanguageSwitcher() {
-  const t = useTranslations('Index');
+  const { Index } = useI18n();
   const locale = useLocale();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -23,7 +24,7 @@ export default function LanguageSwitcher() {
 
   return (
     <Button onClick={toggleLanguage} variant="outline" size="sm" disabled={isPending}>
-      {t('switchLanguage')} ({locale.toUpperCase()})
+      {Index.switchLanguage} ({locale.toUpperCase()})
     </Button>
   );
 }
