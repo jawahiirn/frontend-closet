@@ -1,17 +1,12 @@
 import { getRequestConfig } from 'next-intl/server';
 import { cookies } from 'next/headers';
+import { DEFAULT_LOCALE, isValidLocale } from './config';
 
 export default getRequestConfig(async () => {
-  // Provide a static locale, fetch a user setting,
-  // read from `cookies()`, `headers()`, etc.
   const cookieStore = await cookies();
-  let locale = cookieStore.get('NEXT_LOCALE')?.value || 'en';
+  const localeValue = cookieStore.get('NEXT_LOCALE')?.value || DEFAULT_LOCALE;
 
-  // Validate locale and fallback to 'en' if invalid
-  const validLocales = ['en', 'bn'];
-  if (!validLocales.includes(locale)) {
-    locale = 'en';
-  }
+  const locale = isValidLocale(localeValue) ? localeValue : DEFAULT_LOCALE;
 
   try {
     return {
@@ -19,10 +14,10 @@ export default getRequestConfig(async () => {
       messages: (await import(`../../messages/${locale}.json`)).default,
     };
   } catch (error) {
-    // Fallback to English if locale file doesn't exist
+    // Fallback to DEFAULT_LOCALE if locale file doesn't exist
     return {
-      locale: 'en',
-      messages: (await import(`../../messages/en.json`)).default,
+      locale: DEFAULT_LOCALE,
+      messages: (await import(`../../messages/${DEFAULT_LOCALE}.json`)).default,
     };
   }
 });
