@@ -33,7 +33,7 @@ export default async function Home() {
         {/* Prefetched & Hydrated List */}
         <div className="w-full space-y-10 group">
           <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-bold tracking-tight">Explore Pokemon</h2>
+            <h2 className="text-2xl font-bold tracking-tight">{t('explore')}</h2>
             <div className="h-px flex-1 bg-border/50 group-hover:bg-primary/20 transition-colors" />
           </div>
           <HydrationBoundary state={dehydrate(queryClient)}>
